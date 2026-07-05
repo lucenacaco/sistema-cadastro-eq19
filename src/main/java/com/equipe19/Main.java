@@ -1,6 +1,7 @@
 package com.equipe19;
 
 import com.equipe19.config.ConexaoBanco;
+import com.equipe19.controller.ClienteController;
 import io.javalin.Javalin;
 
 import java.time.Instant;
@@ -13,6 +14,8 @@ public class Main {
         ConexaoBanco.getDataSource();
 
         Javalin app = Javalin.create();
+
+        new ClienteController(app);
 
         app.get("/ping", ctx -> {
             ctx.json(Map.of(
