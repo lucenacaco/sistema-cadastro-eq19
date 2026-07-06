@@ -3,6 +3,9 @@ package com.equipe19;
 import com.equipe19.config.ConexaoBanco;
 import com.equipe19.controller.*;
 import io.javalin.Javalin;
+import io.javalin.rendering.template.JavalinThymeleaf;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 
 import java.time.Instant;
 import java.util.Map;
@@ -15,6 +18,22 @@ public class Main {
 
         Javalin app = Javalin.create(config -> {
             config.showJavalinBanner = false;
+
+            config.staticFiles.add(staticFilesConfig -> {
+                staticFilesConfig.hostedPath = "/";
+                staticFilesConfig.directory = "/public";
+            });
+
+            ClassLoaderTemplateResolver templateResolver = new ClassLoaderTemplateResolver(Thread.currentThread().getContextClassLoader());
+            templateResolver.setPrefix("thymeleaf/");
+            templateResolver.setSuffix(".html");
+            templateResolver.setTemplateMode("HTML");
+            templateResolver.setCharacterEncoding("UTF-8");
+
+            TemplateEngine templateEngine = new TemplateEngine();
+            templateEngine.setTemplateResolver(templateResolver);
+
+            config.fileRenderer(new JavalinThymeleaf(templateEngine));
         });
 
         new ClienteController(app);
@@ -30,7 +49,7 @@ public class Main {
             ));
         });
 
-        app.get("/", ctx -> ctx.result("Sistema de Agendamento - Equipe 19"));
+        app.get("/", ctx -> ctx.redirect("/clientes"));
 
         app.start(8080);
     }
