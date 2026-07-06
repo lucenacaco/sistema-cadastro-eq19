@@ -1,7 +1,10 @@
 package com.equipe19;
 
 import com.equipe19.config.ConexaoBanco;
+import com.equipe19.controller.AgendamentoController;
 import com.equipe19.controller.ClienteController;
+import com.equipe19.controller.ServicoController;
+import com.equipe19.controller.UsuarioController;
 import io.javalin.Javalin;
 
 import java.time.Instant;
@@ -13,9 +16,14 @@ public class Main {
 
         ConexaoBanco.getDataSource();
 
-        Javalin app = Javalin.create();
+        Javalin app = Javalin.create(config -> {
+            config.staticFiles.add("/public");
+        });
 
         new ClienteController(app);
+        new ServicoController(app);
+        new AgendamentoController(app);
+        new UsuarioController(app);
 
         app.get("/ping", ctx -> {
             ctx.json(Map.of(
