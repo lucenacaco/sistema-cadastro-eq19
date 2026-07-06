@@ -17,7 +17,6 @@ public class Main {
         ConexaoBanco.getDataSource();
 
         Javalin app = Javalin.create(config -> {
-            config.staticFiles.add("/public");
         });
 
         new ClienteController(app);
