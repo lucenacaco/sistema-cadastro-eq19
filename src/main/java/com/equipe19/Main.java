@@ -1,10 +1,7 @@
 package com.equipe19;
 
 import com.equipe19.config.ConexaoBanco;
-import com.equipe19.controller.AgendamentoController;
-import com.equipe19.controller.ClienteController;
-import com.equipe19.controller.ServicoController;
-import com.equipe19.controller.UsuarioController;
+import com.equipe19.controller.*;
 import io.javalin.Javalin;
 
 import java.time.Instant;
@@ -17,6 +14,7 @@ public class Main {
         ConexaoBanco.getDataSource();
 
         Javalin app = Javalin.create(config -> {
+            config.showJavalinBanner = false;
         });
 
         new ClienteController(app);
