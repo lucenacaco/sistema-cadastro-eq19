@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  app:
+    image: ghcr.io/lucenacaco/projeto-eq19:latest
+    container_name: projeto-eq19-app
+    ports:
+      - "127.0.0.1:8419:8080"
+    restart: always
+    environment:
+      - DB_URL=${DB_URL}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
